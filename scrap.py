@@ -114,12 +114,13 @@ class CarsScraper:
 
 # Example usage
 url = "https://www.cars.com/shopping/results/?makes[]=&maximum_distance=30&models[]=&stock_type=all&zip="
-scraper = CarsScraper(url, max_pages=2)
+scraper = CarsScraper(url, max_pages=5)
 
 # Without threads
 duration_without_threads = scraper.scrape_cars_without_threads()
-print(f"Time without threads: {duration_without_threads} seconds")
 
 # With threads
 duration_with_threads = scraper.scrape_cars_with_threads()
+print('\n')
+print(f"Time without threads: {duration_without_threads} seconds")
 print(f"Time with threads: {duration_with_threads} seconds")
