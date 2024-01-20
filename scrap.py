@@ -9,37 +9,49 @@ class CarsScraper:
         self.max_pages = max_pages
 
     def send_request(self, url):
-        response = requests.get(url)
-        return response
+        # Sends an HTTP GET request to the specified URL
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an HTTPError for bad responses
+            return response
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+            return None
 
     def parse_page(self, response):
-        if response.status_code == 200:
+        # Parses the HTML content of the response using BeautifulSoup
+        if response and response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             return soup
         else:
-            print(f"Error: {response.status_code}")
-            print(response.text)  # Print the response content in case of an error
+            print(f"Error: Invalid response or status code {response.status_code}")
             return None
 
     def extract_car_info(self, car_element):
+        # Extracts relevant information from a car element on the webpage
         car_info = {}
 
-        car_info['model_year'] = car_element.find('h2', class_='title').text.strip()
+        try:
+            car_info['model_year'] = car_element.find('h2', class_='title').text.strip()
 
-        mileage_element = car_element.find('div', class_='mileage')
-        car_info['mileage'] = mileage_element.get_text(strip=True) if mileage_element else "N/A"
+            mileage_element = car_element.find('div', class_='mileage')
+            car_info['mileage'] = mileage_element.get_text(strip=True) if mileage_element else "N/A"
 
-        car_info['price'] = car_element.find('span', class_='primary-price').text.strip()
+            car_info['price'] = car_element.find('span', class_='primary-price').text.strip()
 
-        price_drop_element = car_element.find('span', class_='price-drop')
-        car_info['price_drop'] = price_drop_element.text.strip() if price_drop_element else "N/A"
+            price_drop_element = car_element.find('span', class_='price-drop')
+            car_info['price_drop'] = price_drop_element.text.strip() if price_drop_element else "N/A"
 
-        dealer_rating_element = car_element.find('span', class_='sds-rating__count')
-        car_info['dealer_rating'] = dealer_rating_element.text.strip() if dealer_rating_element else "N/A"
+            dealer_rating_element = car_element.find('span', class_='sds-rating__count')
+            car_info['dealer_rating'] = dealer_rating_element.text.strip() if dealer_rating_element else "N/A"
+
+        except AttributeError as e:
+            print(f"Error extracting car information: {e}")
 
         return car_info
 
     def scrape_page(self, page_number):
+        # Scrapes information from a specific page of the website
         page_url = f"{self.base_url}&page={page_number}"
         response = self.send_request(page_url)
         soup = self.parse_page(response)
@@ -56,6 +68,7 @@ class CarsScraper:
         return car_info_list
 
     def scrape_cars_with_threads(self):
+        # Scrapes car information using multiple threads for parallelization
         start_time = time.time()
         car_info_list = []
 
@@ -75,6 +88,7 @@ class CarsScraper:
         return end_time - start_time
 
     def scrape_cars_without_threads(self):
+        # Scrapes car information without using threads
         start_time = time.time()
         car_info_list = []
 
@@ -89,6 +103,7 @@ class CarsScraper:
         return end_time - start_time
 
     def print_car_info(self, index, car_info):
+        # Prints the extracted car information
         print(f"\nCar {index}:\n{'=' * 30}")
         print(f"Model Year: {car_info['model_year']}")
         print(f"Mileage: {car_info['mileage']}")
