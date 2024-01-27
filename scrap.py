@@ -126,16 +126,6 @@ class CarsScraper:
         except Exception as e:
             print(f"Error saving car information to Excel: {e}")
 
-    def print_car_info(self, index, car_info):
-        # Prints the extracted car information
-        print(f"\nCar {index}:\n{'=' * 30}")
-        print(f"Model Year: {car_info['model_year']}")
-        print(f"Mileage: {car_info['mileage']}")
-        print(f"Price: {car_info['price']}")
-        print(f"Price Drop: {car_info['price_drop']}")
-        print(f"Dealer Rating: {car_info['dealer_rating']}")
-        print('=' * 30)
-
 # Example usage
 url = "https://www.cars.com/shopping/results/?makes[]=&maximum_distance=30&models[]=&stock_type=all&zip="
 scraper = CarsScraper(url, max_pages=4)
