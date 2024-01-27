@@ -135,12 +135,10 @@ scraper = CarsScraper(url, max_pages=5)
 # Without threads
 duration_without_threads, car_info_list_without_threads = scraper.scrape_cars_without_threads()
 scraper.save_to_excel(car_info_list_without_threads, file_path='car_info_without_threads.xlsx')
-scraper.display_results("Without Threads", duration_without_threads, car_info_list_without_threads, 'car_info_without_threads.xlsx')
 
 # With threads
 duration_with_threads, car_info_list_with_threads = scraper.scrape_cars_with_threads()
 scraper.save_to_excel(car_info_list_with_threads, file_path='car_info_with_threads.xlsx')
-scraper.display_results("With Threads", duration_with_threads, car_info_list_with_threads, 'car_info_with_threads.xlsx')
 
 # Summary table
 scraper.display_results_table([duration_without_threads, duration_with_threads],
