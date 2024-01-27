@@ -7,10 +7,12 @@ from tabulate import tabulate
 
 class CarsScraper:
     def __init__(self, base_url, max_pages=10):
+        # Initialize the CarsScraper with a base URL and maximum number of pages to scrape
         self.base_url = base_url
         self.max_pages = max_pages
 
     def send_request(self, url):
+        # Send an HTTP GET request to the specified URL and handle exceptions
         try:
             response = requests.get(url)
             response.raise_for_status()
@@ -20,6 +22,7 @@ class CarsScraper:
             return None
 
     def parse_page(self, response):
+        # Parse the HTML content of the page using BeautifulSoup
         if response and response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             return soup
@@ -28,6 +31,7 @@ class CarsScraper:
             return None
 
     def extract_car_info(self, car_element):
+        # Extract relevant information from a car element on the webpage
         car_info = {}
         try:
             car_info['model_year'] = car_element.find('h2', class_='title').text.strip()
@@ -48,6 +52,7 @@ class CarsScraper:
         return car_info
 
     def scrape_page(self, page_number):
+        # Scrape car information from a specific page
         page_url = f"{self.base_url}&page={page_number}"
         response = self.send_request(page_url)
         soup = self.parse_page(response)
@@ -63,6 +68,7 @@ class CarsScraper:
         return car_info_list
 
     def scrape_cars_with_threads(self):
+        # Scrape car information from multiple pages concurrently using threads
         start_time = time.time()
         car_info_list = []
 
@@ -78,6 +84,7 @@ class CarsScraper:
         return duration, car_info_list
 
     def scrape_cars_without_threads(self):
+        # Scrape car information from multiple pages sequentially without using threads
         start_time = time.time()
         car_info_list = []
 
@@ -90,6 +97,7 @@ class CarsScraper:
         return duration, car_info_list
     
     def save_to_excel(self, car_info_list, file_path='car_info.xlsx'):
+        # Save the scraped car information to an Excel file
         try:
             df = pd.DataFrame(car_info_list)
             df.to_excel(file_path, index=False)
@@ -98,16 +106,19 @@ class CarsScraper:
             print(f"Error saving car information to Excel: {e}")
 
     def format_duration(self, duration):
+        # Format the duration in minutes and seconds
         minutes, seconds = divmod(duration, 60)
         return f"{int(minutes)} minutes and {seconds:.2f} seconds"
 
     def display_results(self, label, duration, car_info_list, file_path):
+        # Display detailed results for a scraping operation
         print(f"\nResults {label}:")
         print(f"Time taken: {self.format_duration(duration)}")
         print(f"Number of cars scraped: {len(car_info_list)}")
         print(f"Saved car information to {file_path}")
 
     def display_results_table(self, durations, num_cars, file_paths):
+        # Display a summary table of scraping results
         headers = ["Results", "Time taken", "Number of cars scraped", "Saved file"]
         data = [
             ["Without Threads", durations[0], num_cars[0], file_paths[0]],
@@ -124,12 +135,12 @@ scraper = CarsScraper(url, max_pages=5)
 # Without threads
 duration_without_threads, car_info_list_without_threads = scraper.scrape_cars_without_threads()
 scraper.save_to_excel(car_info_list_without_threads, file_path='car_info_without_threads.xlsx')
-# scraper.display_results("Without Threads", duration_without_threads, car_info_list_without_threads, 'car_info_without_threads.xlsx')
+scraper.display_results("Without Threads", duration_without_threads, car_info_list_without_threads, 'car_info_without_threads.xlsx')
 
 # With threads
 duration_with_threads, car_info_list_with_threads = scraper.scrape_cars_with_threads()
 scraper.save_to_excel(car_info_list_with_threads, file_path='car_info_with_threads.xlsx')
-# scraper.display_results("With Threads", duration_with_threads, car_info_list_with_threads, 'car_info_with_threads.xlsx')
+scraper.display_results("With Threads", duration_with_threads, car_info_list_with_threads, 'car_info_with_threads.xlsx')
 
 # Summary table
 scraper.display_results_table([duration_without_threads, duration_with_threads],
