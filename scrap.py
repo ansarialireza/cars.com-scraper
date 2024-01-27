@@ -126,16 +126,35 @@ class CarsScraper:
         except Exception as e:
             print(f"Error saving car information to Excel: {e}")
 
+    def format_duration(self,duration):
+        # Format duration in seconds to a human-readable format
+        minutes, seconds = divmod(duration, 60)
+        return f"{int(minutes)} minutes and {seconds:.2f} seconds"
+    
+    def display_results(self, label, duration, car_info_list, file_path):
+        print(f"\nResults {label}:")
+        print(f"Time taken: {self.format_duration(duration)}")
+        print(f"Number of cars scraped: {len(car_info_list)}")
+        print(f"Saved car information to {file_path}")
+
+
+# Import statements and class definition remain unchanged
+
 # Example usage
 url = "https://www.cars.com/shopping/results/?makes[]=&maximum_distance=30&models[]=&stock_type=all&zip="
-scraper = CarsScraper(url, max_pages=4)
+scraper = CarsScraper(url, max_pages=20)
 
 # Without threads
-duration_without_threads,car_info_list_without_threads = scraper.scrape_cars_without_threads()
+duration_without_threads, car_info_list_without_threads = scraper.scrape_cars_without_threads()
 scraper.save_to_excel(car_info_list_without_threads, file_path='car_info_without_threads.xlsx')
+scraper.display_results("Without Threads", duration_without_threads, car_info_list_without_threads, 'car_info_without_threads.xlsx')
 
+# With threads
 duration_with_threads, car_info_list_with_threads = scraper.scrape_cars_with_threads()
 scraper.save_to_excel(car_info_list_with_threads, file_path='car_info_with_threads.xlsx')
+scraper.display_results("With Threads", duration_with_threads, car_info_list_with_threads, 'car_info_with_threads.xlsx')
 
-print('duration_with_threads : ',duration_with_threads)
-print('duration_without_threads : ',duration_without_threads)
+# Summary
+print("\nSummary:")
+print(f"Total time taken without threads: {scraper.format_duration(duration_without_threads)}")
+print(f"Total time taken with threads: {scraper.format_duration(duration_with_threads)}")
