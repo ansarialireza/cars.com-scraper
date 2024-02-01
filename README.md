@@ -33,6 +33,8 @@ Ensure you have the following prerequisites installed:
 - **BeautifulSoup library** (`beautifulsoup4`)
 - **Pandas library** (`pandas`)
 - **Matplotlib library** (`matplotlib`)
+- **and etc**
+
 
 You can install the dependencies using the provided `requirements.txt` file:
 
