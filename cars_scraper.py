@@ -134,7 +134,7 @@ class CarsScraper:
             car_info_list = self.scrape_category(category)
 
             # Create a folder for each category in the 'output' directory
-            category_folder = os.path.join('output', category)
+            category_folder = os.path.join('serial_output', category)
             os.makedirs(category_folder, exist_ok=True)
 
             # Save the metadata (car information) for the category in its respective folder
@@ -166,7 +166,7 @@ class CarsScraper:
                 category = car_info_list[0]['category']
 
                 # Create a folder for each category in the 'output' directory
-                category_folder = os.path.join('output', category)
+                category_folder = os.path.join('multithreaded_output', category)
                 os.makedirs(category_folder, exist_ok=True)
 
                 # Save the metadata (car information) for the category in its respective folder
@@ -219,11 +219,11 @@ class CarsScraper:
 # Example usage
 # more categories >> 'acura','audi','cadillac','chevrolet','dodge','ford','honda','hyundai','infiniti','jaguar','bugatti','aston_martin','lexus'
         
-categories = ['volvo', 'bmw', 'jeep', 'mercedes_benz','acura','audi','cadillac','chevrolet',]
+categories = ['volvo', 'bmw', 'jeep', 'cadillac','acura',]
 url = "https://www.cars.com/shopping/results/?makes[]=volvo&maximum_distance=all&stock_type=all&zip="
 
 # Example with max_pages
-max_pages = {'volvo': 3, 'bmw': 1, 'jeep': 2, 'mercedes_benz': 4}
+max_pages = {'volvo': 3, 'bmw': 2, 'jeep': 1, 'cadillac': 4,'acura':3,}
 
 scraper = CarsScraper(url, categories, max_pages)
 

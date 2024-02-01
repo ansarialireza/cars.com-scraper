@@ -1,4 +1,6 @@
 venv
 *.xlsx
 /output
+/serial_output
+/multithreaded_output
 # summary_chart.png
