@@ -1,4 +1,4 @@
 venv
 *.xlsx
 /output
-summary_chart.png
+# summary_chart.png
