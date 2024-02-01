@@ -9,6 +9,7 @@ Welcome to the Cars.com Scraper, a Python script designed for efficient scraping
 - [Installation](#installation)
 - [Usage](#usage)
 - [Example](#example)
+- [Summary Chart](#summary-chart)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -89,6 +90,11 @@ scraper.scrape_cars_multithreaded()
 # Summary Chart
 scraper.summary_chart()
 ```
+## Summary Chart
+
+The detailed summary chart provides insights into the number of cars downloaded for each category and compares the execution time between serial and multithreaded implementations.
+
+![Summary Chart](summary_chart.png)
 
 ## Contributing
 
