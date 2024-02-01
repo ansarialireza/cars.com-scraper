@@ -128,11 +128,11 @@ class CarsScraper:
         print(f"Multithreaded Execution Time: {self.multithreaded_execution_time:.2f} seconds")
 
     def summary_chart(self, save_path='summary_chart.png'):
-        # Plotting the summary chart
+        # Plotting the combined chart
         categories = list(self.total_car_counts.keys())
         car_numbers = list(self.total_car_counts.values())
 
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
+        fig, ax1 = plt.subplots(figsize=(10, 6))
 
         # Bar chart for car numbers with different colors for each category
         category_colors = {category: "#" + ''.join([random.choice('0123456789ABCDEF') for _ in range(6)]) for category in categories}
@@ -142,17 +142,18 @@ class CarsScraper:
         ax1.set_ylabel('Number of Cars', fontsize=12, color='black')
         ax1.tick_params('y', labelsize=10, colors='black')
 
-        # Bar chart for execution time comparison
+        # Line chart for execution time comparison on the same plot
+        ax2 = ax1.twinx()
         execution_times = [self.serial_execution_time, self.multithreaded_execution_time]
-        ax2.bar(['Serial', 'Multithreaded'], execution_times, color=['darkgreen', 'coral'], alpha=0.7, label='Execution Time')
-        ax2.set_ylabel('Execution Time (seconds)', fontsize=12, color='black')
-        ax2.tick_params('y', labelsize=10, colors='black')
+        ax2.plot(['Serial', 'Multithreaded'], execution_times, marker='o', color='red', label='Execution Time')
+        ax2.set_ylabel('Execution Time (seconds)', fontsize=12, color='red')
 
         # Beautify the chart
-        plt.suptitle('Number of Cars Downloaded and Execution Time Comparison', fontsize=14)
+        plt.title('Number of Cars Downloaded and Execution Time Comparison', fontsize=14)
         plt.xticks(rotation=45, ha='right', fontsize=12)
         plt.yticks(fontsize=12)
-        plt.legend(loc='upper left')
+        ax1.legend(loc='upper left')
+        ax2.legend(loc='upper right')
 
         # Save the chart
         plt.savefig(save_path, bbox_inches='tight')
@@ -167,7 +168,7 @@ categories = ['volvo', 'bmw', 'jeep', 'mercedes_benz']
 url = "https://www.cars.com/shopping/results/?makes[]=volvo&maximum_distance=all&stock_type=all&zip="
 
 # Example with max_pages
-max_pages = {'volvo': 1, 'bmw': 1, 'jeep': 1, 'mercedes_benz': 1}
+max_pages = {'volvo': 3, 'bmw': 1, 'jeep': 2, 'mercedes_benz': 4}
 scraper = CarsScraper(url, categories, max_pages)
 
 # Phase 1: Serial Implementation
