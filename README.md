@@ -1,44 +1,56 @@
-# Cars Scraper
+# Cars.com Scraper
 
-Welcome to the Cars Scraper, a powerful Python tool designed for effortlessly scraping car information from websites. This script enables you to generate a detailed summary chart, showcasing the number of cars downloaded and a comparison of execution times between serial and multithreaded implementations.
+Welcome to the Cars.com Scraper, a Python script designed for efficient scraping of car information from the Cars.com website. This tool empowers you to gather comprehensive data about various car models, simplifying the process of analysis and comparison.
 
 ## Table of Contents
 - [Overview](#overview)
+- [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Example](#example)
-- [Summary Chart](#summary-chart)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
 
-The Cars Scraper is crafted to extract comprehensive information about cars from a specified website. It supports both serial and multithreaded implementations, ensuring swift and efficient data retrieval.
+Cars.com Scraper streamlines the collection of detailed information about different car models available on Cars.com. The script provides flexibility by supporting both serial and multithreaded implementations for efficient data retrieval.
+
+## Features
+
+- **Efficient Scraping:** Collects comprehensive information about cars, including make, model, year, and other details.
+- **Serial and Multithreaded Scraping:** Supports both serial and multithreaded implementations for faster data extraction.
+- **Customization:** Easily customize the script based on your requirements, such as specifying categories and URLs.
+- **Summary Chart:** Generates a summary chart for the number of cars downloaded and execution time comparison.
 
 ## Requirements
 
 Ensure you have the following prerequisites installed:
 
 - **Python 3.x**
-- **Requests library** (`requests==2.31.0`)
-- **BeautifulSoup library** (`beautifulsoup4==4.12.3`)
-- **Pandas library** (`pandas==2.2.0`)
-- **Matplotlib library** (`matplotlib==3.4.3`)
-- **Concurrent Futures library** (included in Python standard library)
+- **Requests library** (`requests`)
+- **BeautifulSoup library** (`beautifulsoup4`)
+- **Pandas library** (`pandas`)
+- **Matplotlib library** (`matplotlib`)
+
+You can install the dependencies using the provided `requirements.txt` file:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Installation
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/cars-scraper.git
+   git clone https://github.com/ansarialireza/cars.com-scraper.git
    ```
 
 2. **Navigate to the project directory:**
 
    ```bash
-   cd cars-scraper
+   cd cars.com-scraper
    ```
 
 3. **Install the required dependencies:**
@@ -49,13 +61,13 @@ Ensure you have the following prerequisites installed:
 
 ## Usage
 
-Run the script with the following command:
+Run the script using the following command:
 
 ```bash
 python cars_scraper.py
 ```
 
-The script will execute both serial and multithreaded scraping of car information based on the specified categories and URLs.
+The script will perform both serial and multithreaded scraping of car information based on the specified categories and URLs.
 
 ## Example
 
@@ -78,15 +90,9 @@ scraper.scrape_cars_multithreaded()
 scraper.summary_chart()
 ```
 
-## Summary Chart
-
-The detailed summary chart provides insights into the number of cars downloaded for each category and compares the execution time between serial and multithreaded implementations.
-
-![Summary Chart](summary_chart.png)
-
 ## Contributing
 
-Contributions are encouraged! Feel free to submit issues or pull requests.
+Contributions are welcome! Feel free to submit issues or pull requests to enhance the functionality of the scraper.
 
 ## License
 
