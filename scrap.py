@@ -44,20 +44,13 @@ class CarsScraper:
             price_element = car_element.find('span', class_='primary-price')
             car_info['price'] = price_element.text.strip() if price_element else None
 
-            gallery_wrap = car_element.find('div', class_='gallery-wrap')
-            if gallery_wrap:
-                image_wraps = gallery_wrap.find_all('div', class_='image-wrap')
-                car_info['image_urls'] = [self.extract_image_url(image_wrap) for image_wrap in image_wraps]
+            # Removed the section for extracting image URLs
 
         except AttributeError as e:
             print(f"Error extracting car information: {e}")
 
         car_info['category'] = category
         return car_info
-
-    def extract_image_url(self, image_wrap):
-        img_tag = image_wrap.find('img', class_='vehicle-image')
-        return img_tag['src'] if img_tag else None
 
     def scrape_category(self, category, max_pages=None):
         max_pages = max_pages or self.max_pages.get(category, 1)
@@ -78,28 +71,13 @@ class CarsScraper:
         self.total_car_counts[category] += len(car_info_list) // 2
         return car_info_list
 
-    def save_images_and_metadata(self, car_info_list, category_folder):
-        for car_info in car_info_list:
-            # Save car images
-            image_urls = car_info.get('image_urls', [])
-            for i, image_url in enumerate(image_urls):
-                if image_url:
-                    image_path = os.path.join(category_folder, f"{car_info['model_year']}_image_{i + 1}.jpg")
-                    self.save_image(image_url, image_path)
+    def save_metadata(self, car_info_list, category_folder):
+        # Removed the section for saving images
 
         # Generate CSV file
         df = pd.DataFrame(car_info_list)
         csv_path = os.path.join(category_folder, 'car_info.csv')
         df.to_csv(csv_path, index=False)
-
-    def save_image(self, url, path):
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            with open(path, 'wb') as f:
-                f.write(response.content)
-        except Exception as e:
-            print(f"Error saving image: {e}")
 
     def scrape_cars_serial(self):
         start_time = time.time()
@@ -107,7 +85,7 @@ class CarsScraper:
             car_info_list = self.scrape_category(category)
             category_folder = os.path.join('output', category)
             os.makedirs(category_folder, exist_ok=True)
-            self.save_images_and_metadata(car_info_list, category_folder)
+            self.save_metadata(car_info_list, category_folder)
         end_time = time.time()
         self.serial_execution_time = end_time - start_time
         print(f"Serial Execution Time: {self.serial_execution_time:.2f} seconds")
@@ -122,7 +100,7 @@ class CarsScraper:
                 category = car_info_list[0]['category']
                 category_folder = os.path.join('output', category)
                 os.makedirs(category_folder, exist_ok=True)
-                self.save_images_and_metadata(car_info_list, category_folder)
+                self.save_metadata(car_info_list, category_folder)
         end_time = time.time()
         self.multithreaded_execution_time = end_time - start_time
         print(f"Multithreaded Execution Time: {self.multithreaded_execution_time:.2f} seconds")
