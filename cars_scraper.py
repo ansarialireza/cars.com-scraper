@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import random
 
 class CarsScraper:
-    def __init__(self, base_url, categories, max_pages=None):
+    def __init__(self, base_url, categories, max_pages=1):
         self.base_url = base_url
         self.categories = categories
         self.max_pages = max_pages if max_pages else {}
@@ -142,6 +142,8 @@ class CarsScraper:
 
 
 # Example usage
+# more categories >> 'acura','audi','cadillac','chevrolet','dodge','ford','honda','hyundai','infiniti','jaguar','bugatti','aston_martin','lexus'
+        
 categories = ['volvo', 'bmw', 'jeep', 'mercedes_benz']
 url = "https://www.cars.com/shopping/results/?makes[]=volvo&maximum_distance=all&stock_type=all&zip="
 
