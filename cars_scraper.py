@@ -44,7 +44,6 @@ class CarsScraper:
             price_element = car_element.find('span', class_='primary-price')
             car_info['price'] = price_element.text.strip() if price_element else None
 
-            # Removed the section for extracting image URLs
 
         except AttributeError as e:
             print(f"Error extracting car information: {e}")
