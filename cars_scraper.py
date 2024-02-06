@@ -219,11 +219,11 @@ class CarsScraper:
 # Example usage
 # more categories >> 'acura','audi','cadillac','chevrolet','dodge','ford','honda','hyundai','infiniti','jaguar','bugatti','aston_martin','lexus'
         
-categories = ['volvo', 'bmw', 'jeep', 'cadillac','acura',]
+categories = ['volvo', 'bmw', 'jeep', 'cadillac','acura','hyundai','ford','chevrolet']
 url = "https://www.cars.com/shopping/results/?makes[]=volvo&maximum_distance=all&stock_type=all&zip="
 
 # Example with max_pages
-max_pages = {'volvo': 3, 'bmw': 2, 'jeep': 1, 'cadillac': 4,'acura':3,}
+max_pages = {'volvo': 4, 'bmw': 8, 'jeep': 3, 'cadillac': 5,'acura':2,'hyundai':4,'ford':3,'chevrolet':8}
 
 scraper = CarsScraper(url, categories, max_pages)
 
